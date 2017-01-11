@@ -58,7 +58,9 @@ foreach($colors as $s) {
             mkdir($outputFilePath, 0755, true);
         }
 
-		$file = fopen($outputFilePath . $s->ColorNo . ".xml", "w");
+        $fileName = str_replace('/', '_', $outputFilePath);
+
+		$file = fopen($outputFilePath . $fileName . $s->ColorNo . ".xml", "w");
 		fwrite($file, $output);
 		fclose($file);
 	}

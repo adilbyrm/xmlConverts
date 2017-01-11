@@ -55,7 +55,9 @@ foreach($xmls as $s) {
             mkdir($outputFilePath, 0755, true);
         }
 
-		$file = fopen($outputFilePath . $s->SectionNo . ".xml", "w");
+        $fileName = str_replace('/', '_', $outputFilePath);
+
+		$file = fopen($outputFilePath . $fileName . $s->SectionNo . ".xml", "w");
 		fwrite($file, $output);
 		fclose($file);
 	}

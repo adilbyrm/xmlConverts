@@ -121,7 +121,9 @@ foreach ($banks as $s) {
         mkdir($outputFilePath, 0755, true);
     }
 
-    $file = fopen($outputFilePath . $s['ID'] . ".xml", "w");
+    $fileName = str_replace('/', '_', $outputFilePath);
+
+    $file = fopen($outputFilePath . $fileName . $s['ID'] . ".xml", "w");
     fwrite($file, $output);
     fclose($file);
 }

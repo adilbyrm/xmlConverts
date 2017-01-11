@@ -53,7 +53,9 @@ foreach($xmls as $s) {
             mkdir($outputFilePath, 0755, true);
         }
 
-		$file = fopen($outputFilePath . $s->ShortcutNo . ".xml", "w");
+        $fileName = str_replace('/', '_', $outputFilePath);
+
+		$file = fopen($outputFilePath . $fileName . $s->ShortcutNo . ".xml", "w");
 		fwrite($file, $output);
 		fclose($file);
 	}

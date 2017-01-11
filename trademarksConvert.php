@@ -56,8 +56,10 @@ foreach ($trademarks as $s) {
         if (!is_dir($outputFilePath)) {
             mkdir($outputFilePath, 0755, true);
         }
+
+        $fileName = str_replace('/', '_', $outputFilePath);
         
-        $file = fopen($outputFilePath . $s->TrademarkNo . ".xml", "w");
+        $file = fopen($outputFilePath . $fileName . $s->TrademarkNo . ".xml", "w");
         fwrite($file, $output);
         fclose($file);
     }

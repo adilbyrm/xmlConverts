@@ -90,6 +90,8 @@ if (!is_dir($outputFilePath)) {
     mkdir($outputFilePath, 0755, true);
 }
 
-$file = fopen($outputFilePath . $receiptNo . ".xml", "w");
+$fileName = str_replace('/', '_', $outputFilePath);
+
+$file = fopen($outputFilePath . $fileName . $receiptNo . ".xml", "w");
 fwrite($file, $output);
 fclose($file);
