@@ -7,4 +7,4 @@
 # php shortcutConvert.php kivilcim/kisayol.xml kivilcim/kisayol/
 # php stockConvert.php kivilcim/urun.xml kivilcim/urun/
 # php accountConvert.php velesbit/cari.xml velesbit/cari/
-# php stockConvert.php velesbit/urun.xml velesbit/urun/ 
+# php stockConvert.php velesbit/urun.xml velesbit/urun/
