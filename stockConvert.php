@@ -87,7 +87,7 @@ foreach($stocks as $s) {
 		$stockCard .= "<RowEditDateTime>{$s->RowEditDateTime}</RowEditDateTime>\n";
 		$stockCard .= "<RowEditUserNo>1</RowEditUserNo>\n";
 		$stockCard .= "<ID>{$i}</ID>\n";
-		$stockCard .= "<Code>{$s->Barcode}</Code>\n";
+		$stockCard .= "<Code>".substr($s->Barcode, 1)."</Code>\n";
 		$stockCard .= "<Name>" . xmlEscape($stockName) . "</Name>\n";
 		$stockCard .= "<Name2>" . xmlEscape($s->StockName2) . "</Name2>\n";
 		$stockCard .= "<SpecialCode>{$s->SpecialCode}</SpecialCode>\n";
@@ -167,6 +167,21 @@ foreach($stocks as $s) {
 		$stockCard .= "<_SynchronizationID_>" . getGUID() . "</_SynchronizationID_>\n";
 		$stockCard .= "</StockCards>\n";
 		
+		$barcodeType = $s->BarcodeType == '0' ? '12' : '4';
+		$stockCard .= "<StockCardBarcodes>";
+		$stockCard .= "<RowID>{$i}</RowID>\n";
+		$stockCard .= "<RowAddDateTime>{$s->RowEditDateTime}</RowAddDateTime>\n";
+		$stockCard .= "<RowAddUserNo>1</RowAddUserNo>\n";
+		$stockCard .= "<RowEditDateTime>{$s->RowEditDateTime}</RowEditDateTime>\n";
+		$stockCard .= "<RowEditUserNo>1</RowEditUserNo>\n";
+		$stockCard .= "<StockID>{$i}</StockID>\n";
+		$stockCard .= "<ID>{$i}</ID>\n";
+		$stockCard .= "<SeqID>{$i}</SeqID>\n";
+		$stockCard .= "<Name>Ürün</Name>\n";
+		$stockCard .= "<Type>{$barcodeType}</Type>\n";
+		$stockCard .= "<Barcode>".$s->Barcode."</Barcode>\n";
+		$stockCard .= "<Amount>1</Amount>\n";
+		$stockCard .= "</StockCardBarcodes>";
 
 		$buyPrice = '';
 		for ($k=1; $k<=3; $k++) {
