@@ -30,9 +30,19 @@ function getGUID(){
 
 $colors = new SimpleXMLElement($xmlFilePath, null, true);
 
+$inNames = [];
+
 $i=0;
 foreach($colors as $s) {
 	if ($s->getName() == "Colors"){
+
+		$colorName = (string)$s->ColorName;
+		if (in_array($colorName, $inNames)) {
+			$count = count(array_filter($inNames, function ($n) use ($colorName) { return $n == $colorName; }));
+			$colorName = $s->ColorName . '(' . $count . ')';
+		}
+		$inNames[] = (string)$s->ColorName;
+
 		$i++;
 
 		$color = $s->Color == 0 ? '-1' : $s->Color; 
@@ -44,7 +54,7 @@ foreach($colors as $s) {
 		$colors .= "<RowEditDateTime>{$s->RowEditDateTime}</RowEditDateTime>\n";
 		$colors .= "<RowEditUserNo>{$s->RowEditUserNo}</RowEditUserNo>\n";
 		$colors .= "<ID>{$s->ColorNo}</ID>\n";
-		$colors .= "<Name>" . xmlEscape($s->ColorName) . "</Name>\n";
+		$colors .= "<Name>" . xmlEscape($colorName) . "</Name>\n";
 		$colors .= "<Color>{$color}</Color>\n";
 		$colors .= "<Status>0</Status>\n";
 		$colors .= "<_SynchronizationID_>" . getGUID() . "</_SynchronizationID_>\n";
