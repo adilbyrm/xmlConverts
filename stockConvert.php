@@ -99,6 +99,7 @@ foreach($stocks as $s) {
 		$stockCard .= "<ProductID>0</ProductID>\n";
 		$stockCard .= "<ModelID>0</ModelID>\n";
 		$stockCard .= "<UnitID>1</UnitID>\n";
+		$stockCard .= "<SizeID>{$s->SizeNo}</SizeID>\n";
 		$stockCard .= "<UnitName>Adet</UnitName>\n";
 		$stockCard .= "<SeasonID>0</SeasonID>\n";
 		$stockCard .= "<SectionID>0</SectionID>\n";
