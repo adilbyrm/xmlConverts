@@ -35,13 +35,15 @@ $receiptNo = '2';
 
 foreach($xmls as $s) {
 	if ($s->getName() == "StockReceiptsDetail" && $s->ReceiptNo == $receiptNo) {
-
+		if ($s->Amount < 0) continue;
 		$xml .= "<StockReceiptStocks>\n";
+		$xml .= "<RowID>1</RowID>\n";
 		$xml .= "<RowAddDateTime>{$s->RowAddDateTime}</RowAddDateTime>\n";
 		$xml .= "<RowAddUserNo>{$s->RowAddUserNo}</RowAddUserNo>\n";
 		$xml .= "<RowEditDateTime>{$s->RowEditDateTime}</RowEditDateTime>\n";
 		$xml .= "<RowEditUserNo>{$s->RowEditUserNo}</RowEditUserNo>\n";
 		$xml .= "<ID>{$receiptNo}</ID>\n";
+		$xml .= "<ReceiptID>{$receiptNo}</ReceiptID>\n";
 		$xml .= "<ReceiptType>2</ReceiptType>\n";
 		$xml .= "<Time>{$s->RowDateTime}</Time>\n";
 		$xml .= "<DepotID>1</DepotID>\n";
@@ -63,16 +65,17 @@ foreach($xmls as $s) {
 	}
 }
 
-$zeroCount = 10 - strlen($receiptNo);
-$receiptNo2 = str_repeat('0', $zeroCount) . $receiptNo;
+// $zeroCount = 10 - strlen($receiptNo);
+// $receiptNo2 = str_repeat('0', $zeroCount) . $receiptNo;
 
 $stockReceipts = "<StockReceipts>\n";
+$stockReceipts .= "<RowID>1</RowID>\n";
 $stockReceipts .= "<RowAddDateTime>{$RowAddDateTime}</RowAddDateTime>\n";
 $stockReceipts .= "<RowAddUserNo>{$RowAddUserNo}</RowAddUserNo>\n";
 $stockReceipts .= "<RowEditDateTime>{$RowEditDateTime}</RowEditDateTime>\n";
 $stockReceipts .= "<RowEditUserNo>{$RowEditUserNo}</RowEditUserNo>\n";
 $stockReceipts .= "<ID>{$receiptNo}</ID>\n";
-$stockReceipts .= "<ReceiptNo>{$receiptNo2}</ReceiptNo>\n";
+$stockReceipts .= "<ReceiptNo>{$receiptNo}</ReceiptNo>\n";
 $stockReceipts .= "<ReceiptType>2</ReceiptType>\n";
 $stockReceipts .= "<Time>{$RowDateTime}</Time>\n";
 $stockReceipts .= "<DepotID>1</DepotID>\n";
