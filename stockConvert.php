@@ -98,9 +98,8 @@ foreach($stocks as $s) {
 		$stockCard .= "<TrademarkName></TrademarkName>\n";
 		$stockCard .= "<ProductID>0</ProductID>\n";
 		$stockCard .= "<ModelID>0</ModelID>\n";
-		$stockCard .= "<UnitID>1</UnitID>\n";
+		$stockCard .= "<UnitID>{$s->UnitNo}</UnitID>\n";
 		$stockCard .= "<SizeID>{$s->SizeNo}</SizeID>\n";
-		$stockCard .= "<UnitName>Adet</UnitName>\n";
 		$stockCard .= "<SeasonID>{$s->SeasonNo}</SeasonID>\n";
 		$stockCard .= "<SectionID>{$s->SectionNo}</SectionID>\n";
 		$stockCard .= "<ColorID>{$s->ColorNo}</ColorID>\n";
