@@ -35,7 +35,10 @@ $inNames = [];
 $i=0;
 foreach($stocks as $s) {
 	if ($s->getName() == "CurrentReceipts"){
-		
+		if ($s->ReceiptType != '0' && $s->ReceiptType != '1') {
+			continue;
+		}
+
 		$i++;
 
 		if ($s->CurrencyNo == '0') {

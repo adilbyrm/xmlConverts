@@ -31,7 +31,7 @@ function getGUID(){
 $xmls = new SimpleXMLElement($xmlFilePath, null, true);
 $xml = '';
 $totalAmount = 0;
-$receiptNo = '2';
+$receiptNo = '3'; // StockReceiptsMaster'daki receiptNo'ya gore tek tek degistirilecek
 
 foreach($xmls as $s) {
 	if ($s->getName() == "StockReceiptsDetail" && $s->ReceiptNo == $receiptNo) {
