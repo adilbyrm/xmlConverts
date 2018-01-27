@@ -48,7 +48,7 @@ foreach($xmls as $s) {
 		$xml .= "<Time>{$s->RowDateTime}</Time>\n";
 		$xml .= "<DepotID>1</DepotID>\n";
 		$xml .= "<TargetDepotID>0</TargetDepotID>\n";
-		$xml .= "<StockCode>{$s->Barcode}</StockCode>\n";
+		$xml .= "<StockCode>".substr($s->Barcode, 1)."</StockCode>\n";
 		$xml .= "<Number></Number>\n";
 		$xml .= "<UnitName>Adet</UnitName>\n";
 		$xml .= "<Amount>{$s->Amount}</Amount>\n";
