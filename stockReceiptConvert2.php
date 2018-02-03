@@ -35,7 +35,7 @@ $receiptNo = '3'; // StockReceiptsMaster'daki receiptNo'ya gore tek tek degistir
 
 $x = 1000;
 foreach($xmls as $s) {
-	if ($s->getName() == "StockReceiptsDetail" && ($s->ReceiptNo == '3' || $s->ReceiptNo == '1')) {
+	if ($s->getName() == "StockReceiptsDetail" && ($s->ReceiptNo == '1')) {
 		// if ($s->Amount < 0) continue;
 		$x += 1;
 		$xml = "<StockReceiptStocks>\n";
@@ -76,7 +76,6 @@ foreach($xmls as $s) {
 		$stockReceipts .= "<ReceiptType>2</ReceiptType>\n";
 		$stockReceipts .= "<Time>{$RowDateTime}</Time>\n";
 		$stockReceipts .= "<DepotID>1</DepotID>\n";
-		$stockReceipts .= "<DepotName>Merkez</DepotName>\n";
 		$stockReceipts .= "<TargetDepotID>0</TargetDepotID>\n";
 		$stockReceipts .= "<TotalAmount>{$totalAmount}</TotalAmount>\n";
 		$stockReceipts .= "<SettingID>1</SettingID>\n";
