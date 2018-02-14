@@ -1,3 +1,4 @@
-*.xml
-*.zip
-.DS_Store
+**/*.xml
+**/*.zip
+**/*.xlsx
+**/.DS_Store
