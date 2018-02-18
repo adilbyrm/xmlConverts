@@ -33,9 +33,9 @@ $xml = '';
 $totalAmount = 0;
 $receiptNo = '3'; // StockReceiptsMaster'daki receiptNo'ya gore tek tek degistirilecek
 
-$x = 1000;
+$x = 64580;
 foreach($xmls as $s) {
-	if ($s->getName() == "StockReceiptsDetail" && ($s->ReceiptNo == '1')) {
+	if ($s->getName() == "StockReceiptsDetail" && ($s->ReceiptNo == '3')) {
 		// if ($s->Amount < 0) continue;
 		$x += 1;
 		$xml = "<StockReceiptStocks>\n";
@@ -48,7 +48,7 @@ foreach($xmls as $s) {
 		$xml .= "<ReceiptID>{$x}</ReceiptID>\n";
 		$xml .= "<ReceiptType>2</ReceiptType>\n";
 		$xml .= "<Time>{$s->RowDateTime}</Time>\n";
-		$xml .= "<DepotID>1</DepotID>\n";
+		$xml .= "<DepotID>2</DepotID>\n";
 		$xml .= "<TargetDepotID>0</TargetDepotID>\n";
 		$xml .= "<StockCode>".substr($s->Barcode, 1)."</StockCode>\n";
 		$xml .= "<Number></Number>\n";
@@ -56,6 +56,7 @@ foreach($xmls as $s) {
 		$xml .= "<Amount>{$s->Amount}</Amount>\n";
 		$xml .= "<DepotAmount>0</DepotAmount>\n";
 		$xml .= "<TargetDepotAmount>0</TargetDepotAmount>\n";
+		$xml .= "<Status>1</Status>\n";
 		$xml .= "</StockReceiptStocks>\n";
 
 		$totalAmount = $s->Amount;
@@ -75,10 +76,11 @@ foreach($xmls as $s) {
 		$stockReceipts .= "<ReceiptNo>{$receiptNo}</ReceiptNo>\n";
 		$stockReceipts .= "<ReceiptType>2</ReceiptType>\n";
 		$stockReceipts .= "<Time>{$RowDateTime}</Time>\n";
-		$stockReceipts .= "<DepotID>1</DepotID>\n";
+		$stockReceipts .= "<DepotID>2</DepotID>\n";
 		$stockReceipts .= "<TargetDepotID>0</TargetDepotID>\n";
 		$stockReceipts .= "<TotalAmount>{$totalAmount}</TotalAmount>\n";
 		$stockReceipts .= "<SettingID>1</SettingID>\n";
+		$stockReceipts .= "<Status>1</Status>\n";
 		$stockReceipts .= "</StockReceipts>\n";
 
 		$output = "<StockReceipts>\n";
