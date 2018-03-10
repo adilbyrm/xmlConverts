@@ -18,26 +18,26 @@ function xmlEscape($string) {
 
 // var_dump($rows);
 
-// A=>Kodu, 
-// B=>Açıklama/isim, 
-// C=>, 
-// D=>, 
-// E=>alis fiyati $,
+// A=>, 
+// B=>, 
+// C=>Kodu, 
+// D=>adı, 
+// E=>Barkodu,
 // F=>,
-// G=>satis fiyati tl,
-// H=>barkod
+// G=>,
+// H=>
 
 $time = date('c');
 
 $i = 0;
 foreach ($rows as $key => $row) {
-	if ($key == 1) continue;
+	if ($key == 1 || $key == 2) continue;
 
 	$i++;
 
-	$buyPrice1 = ltrim($row['E'], '$');
-	$sellPrice1 = rtrim($row['G'], ' TL');
-	$code = str_replace('_x000D_', "", $row['A']);
+	$buyPrice1 = empty($row['G']) ? 999 : $row['G']; //usd
+	$sellPrice1 = empty($row['H']) ? 999 : $row['H']; //tl
+	$code = trim(str_replace('_x000D_', "", $row['C']));
 
 	$stockCard = "<StockCards>\n";
 	$stockCard .= "<RowID>{$i}</RowID>\n";
@@ -47,9 +47,9 @@ foreach ($rows as $key => $row) {
 	$stockCard .= "<RowEditUserNo>0</RowEditUserNo>\n";
 	$stockCard .= "<ID>{$i}</ID>\n";
 	$stockCard .= "<Code>".$code."</Code>\n";
-	$stockCard .= "<Name>" . xmlEscape($row['B']) . "</Name>\n";
-	$stockCard .= "<Name2>" . xmlEscape($row['B']) . "</Name2>\n";
-	$stockCard .= "<SpecialCode>". xmlEscape($row['B']) ."</SpecialCode>\n";
+	$stockCard .= "<Name>" . xmlEscape($row['D']) . "</Name>\n";
+	$stockCard .= "<Name2>" . xmlEscape($row['D']) . "</Name2>\n";
+	$stockCard .= "<SpecialCode>". xmlEscape($row['D']) ."</SpecialCode>\n";
 	$stockCard .= "<CardType>0</CardType>\n";
 	$stockCard .= "<TrackingType>0</TrackingType>\n";
 	$stockCard .= "<GroupID>0</GroupID>\n";
@@ -125,7 +125,7 @@ foreach ($rows as $key => $row) {
 	$stockCard .= "<SettingID>0</SettingID>\n";
 	$stockCard .= "</StockCards>\n";
 	
-	if ((int) $row['H'] > 0) {
+	if ((int) $row['F'] > 0) {
 		$stockCard .= "<StockCardBarcodes>";
 		$stockCard .= "<RowID>{$i}</RowID>\n";
 		$stockCard .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -137,7 +137,7 @@ foreach ($rows as $key => $row) {
 		$stockCard .= "<SeqID>{$i}</SeqID>\n";
 		$stockCard .= "<Name>Ürün</Name>\n";
 		$stockCard .= "<Type>4</Type>\n";
-		$stockCard .= "<Barcode>".$row['H']."</Barcode>\n";
+		$stockCard .= "<Barcode>".$row['F']."</Barcode>\n";
 		$stockCard .= "<Amount>1</Amount>\n";
 		$stockCard .= "</StockCardBarcodes>";
 	}

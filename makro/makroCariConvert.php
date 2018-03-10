@@ -37,8 +37,18 @@ foreach($rows as $key => $row) {
 	$time = date('c');
 	$status = "0";
 
-	$currencyNo = '1';
-	$currencyCode = 'TL';
+	if ($row['C'] && !empty($row['C'])) {
+        $accountBalance = str_replace([",", " "], [".", ""], $row['C']);
+        $currencyNo = '1';
+        $currencyCode = 'TL';
+        $currencyPrice =  1;
+
+    } else {
+        $accountBalance = str_replace([",", " "], [".", ""], $row['D']);
+        $currencyNo = '2';
+        $currencyCode = 'USD';
+        $currencyPrice =  3.7523;
+    }
 
 	$currents = "<CurrentAccounts>\n";
 	$currents .= "<RowID>{$i}</RowID>\n";
@@ -89,23 +99,23 @@ foreach($rows as $key => $row) {
 	$currents .= "<Property17></Property17>\n";
 	$currents .= "</CurrentAccounts>\n";
 
-	// $balance = "<CurrentAccountBalances>\n";
-	// $balance .= "<RowID>{$i}</RowID>\n";
-	// $balance .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
-	// $balance .= "<RowAddUserNo>1</RowAddUserNo>\n";
-	// $balance .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
-	// $balance .= "<RowEditUserNo>0</RowEditUserNo>\n";
-	// $balance .= "<AccountID>{$i}</AccountID>\n";
-	// $balance .= "<CurrencyNo>{$currencyNo}</CurrencyNo>\n";
-	// $balance .= "<CurrencyCode>{$currencyCode}</CurrencyCode>\n";
-	// $balance .= "<Debt>0</Debt>\n";
-	// $balance .= "<Credit>0</Credit>\n";
-	// $balance .= "<DebtRemainder>0</DebtRemainder>\n";
-	// $balance .= "<CreditRemainder>0</CreditRemainder>\n";
-	// $balance .= "<Remainder>0</Remainder>\n";
-	// $balance .= "<Explanation></Explanation>\n";
-	// $balance .= "<Status>0</Status>\n";
-	// $balance .= "</CurrentAccountBalances>\n";
+	$balance = "<CurrentAccountBalances>\n";
+	$balance .= "<RowID>{$i}</RowID>\n";
+	$balance .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
+	$balance .= "<RowAddUserNo>1</RowAddUserNo>\n";
+	$balance .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
+	$balance .= "<RowEditUserNo>0</RowEditUserNo>\n";
+	$balance .= "<AccountID>{$i}</AccountID>\n";
+	$balance .= "<CurrencyNo>{$currencyNo}</CurrencyNo>\n";
+	$balance .= "<CurrencyCode>{$currencyCode}</CurrencyCode>\n";
+	$balance .= "<Debt>0</Debt>\n";
+	$balance .= "<Credit>0</Credit>\n";
+	$balance .= "<DebtRemainder>0</DebtRemainder>\n";
+	$balance .= "<CreditRemainder>0</CreditRemainder>\n";
+	$balance .= "<Remainder>0</Remainder>\n";
+	$balance .= "<Explanation></Explanation>\n";
+	$balance .= "<Status>0</Status>\n";
+	$balance .= "</CurrentAccountBalances>\n";
 
 	$company = "<Companies>\n";
 	$company .= "<RowID>{$i}</RowID>\n";
@@ -199,7 +209,7 @@ foreach($rows as $key => $row) {
 	}
 
 	$output = "<CurrentAccounts>\n";
-	$output .= $currents .  $company . $info;
+	$output .= $currents . $balance . $company . $info;
 	$output .= "</CurrentAccounts>\n";
 
 	if (!is_dir($outputFilePath)) {

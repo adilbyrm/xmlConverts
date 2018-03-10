@@ -24,12 +24,29 @@ function xmlEscape($string) {
 
 $time = date('c');
 $xml = '';
-$x = 5500;
+$x = 0;
 foreach ($rows as $key => $row) {
-    if ($key == 1) continue;
+    if ($key == 1 || $key == 2) continue;
     $x += 1;
+
+    if ($row['D'] == 'MERKEZ EMINONU') {
+        $depotID = 1;
+    } else if ($row['D'] == 'DEPO') {
+        $depotID = 2;
+    } else if ($row['D'] == '34UH7102') {
+        $depotID = 3;
+    }
+
+    if ($row['C'] == 'ADET') {
+        $unitID = 1;
+        $unitName = 'Adet';
+    } else if ($row['C'] == 'PK') {
+        $unitID = 3;
+        $unitName = 'Paket';
+    }
+
     $code = str_replace('_x000D_', "", $row['A']);
-    $amount = str_replace(',', "", $row['C']);
+    $amount = $row['E'];
     $xml = "<StockReceiptStocks>\n";
     $xml .= "<RowID>1</RowID>\n";
     $xml .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -40,11 +57,12 @@ foreach ($rows as $key => $row) {
     $xml .= "<ReceiptID>{$x}</ReceiptID>\n";
     $xml .= "<ReceiptType>0</ReceiptType>\n";
     $xml .= "<Time>{$time}</Time>\n";
-    $xml .= "<DepotID>2</DepotID>\n";
+    $xml .= "<DepotID>{$depotID}</DepotID>\n";
     $xml .= "<TargetDepotID>0</TargetDepotID>\n";
     $xml .= "<StockCode>".$code."</StockCode>\n";
     $xml .= "<Number></Number>\n";
-    $xml .= "<UnitName>Adet</UnitName>\n";
+    $xml .= "<UnitID>{$unitID}</UnitID>\n";
+    $xml .= "<UnitName>{$unitName}</UnitName>\n";
     $xml .= "<Amount>".$amount."</Amount>\n";
     $xml .= "<DepotAmount>0</DepotAmount>\n";
     $xml .= "<TargetDepotAmount>0</TargetDepotAmount>\n";
@@ -60,7 +78,7 @@ foreach ($rows as $key => $row) {
     $stockReceipts .= "<ID>{$x}</ID>\n";
     $stockReceipts .= "<ReceiptType>0</ReceiptType>\n";
     $stockReceipts .= "<Time>{$time}</Time>\n";
-    $stockReceipts .= "<DepotID>2</DepotID>\n";
+    $stockReceipts .= "<DepotID>{$depotID}</DepotID>\n";
     $stockReceipts .= "<TargetDepotID>0</TargetDepotID>\n";
     $stockReceipts .= "<TotalAmount>".$amount."</TotalAmount>\n";
     $stockReceipts .= "<SettingID>1</SettingID>\n";
