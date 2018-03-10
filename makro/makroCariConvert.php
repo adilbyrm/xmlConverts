@@ -31,7 +31,7 @@ $i=10;
 $y=5;
 $z=5;
 foreach($rows as $key => $row) {
-	if ($key == 0) continue;
+	if ($key == 1) continue;
 	$i++;
 
 	$time = date('c');
@@ -85,27 +85,27 @@ foreach($rows as $key => $row) {
 	$currents .= "<Property13></Property13>\n";
 	$currents .= "<Property14></Property14>\n";
 	$currents .= "<Property15></Property15>\n";
-	$currents .= "<Property16>".$row['G']."</Property16>\n";
-	$currents .= "<Property17>".$row['C']."</Property17>\n";
+	$currents .= "<Property16>".$row['E']."</Property16>\n";
+	$currents .= "<Property17></Property17>\n";
 	$currents .= "</CurrentAccounts>\n";
 
-	$balance = "<CurrentAccountBalances>\n";
-	$balance .= "<RowID>{$i}</RowID>\n";
-	$balance .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
-	$balance .= "<RowAddUserNo>1</RowAddUserNo>\n";
-	$balance .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
-	$balance .= "<RowEditUserNo>0</RowEditUserNo>\n";
-	$balance .= "<AccountID>{$i}</AccountID>\n";
-	$balance .= "<CurrencyNo>{$currencyNo}</CurrencyNo>\n";
-	$balance .= "<CurrencyCode>{$currencyCode}</CurrencyCode>\n";
-	$balance .= "<Debt>0</Debt>\n";
-	$balance .= "<Credit>0</Credit>\n";
-	$balance .= "<DebtRemainder>0</DebtRemainder>\n";
-	$balance .= "<CreditRemainder>0</CreditRemainder>\n";
-	$balance .= "<Remainder>0</Remainder>\n";
-	$balance .= "<Explanation></Explanation>\n";
-	$balance .= "<Status>0</Status>\n";
-	$balance .= "</CurrentAccountBalances>\n";
+	// $balance = "<CurrentAccountBalances>\n";
+	// $balance .= "<RowID>{$i}</RowID>\n";
+	// $balance .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
+	// $balance .= "<RowAddUserNo>1</RowAddUserNo>\n";
+	// $balance .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
+	// $balance .= "<RowEditUserNo>0</RowEditUserNo>\n";
+	// $balance .= "<AccountID>{$i}</AccountID>\n";
+	// $balance .= "<CurrencyNo>{$currencyNo}</CurrencyNo>\n";
+	// $balance .= "<CurrencyCode>{$currencyCode}</CurrencyCode>\n";
+	// $balance .= "<Debt>0</Debt>\n";
+	// $balance .= "<Credit>0</Credit>\n";
+	// $balance .= "<DebtRemainder>0</DebtRemainder>\n";
+	// $balance .= "<CreditRemainder>0</CreditRemainder>\n";
+	// $balance .= "<Remainder>0</Remainder>\n";
+	// $balance .= "<Explanation></Explanation>\n";
+	// $balance .= "<Status>0</Status>\n";
+	// $balance .= "</CurrentAccountBalances>\n";
 
 	$company = "<Companies>\n";
 	$company .= "<RowID>{$i}</RowID>\n";
@@ -129,7 +129,7 @@ foreach($rows as $key => $row) {
 	
 	$info = "";
 
-	if ($row['H'] || $row['I']) {
+	if ($row['G'] || $row['H']) {
 		$info .= "<CompanyAddresses>\n";
 		$info .= "<RowID>{$i}</RowID>\n";
 		$info .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -157,7 +157,7 @@ foreach($rows as $key => $row) {
 		$info .= "<Township></Township>\n";
 		$info .= "<Village></Village>\n";
 		$info .= "<District></District>\n";
-		$info .= "<Street>" . xmlEscape($row['H'] . ' ' . $row['I']) . "</Street>\n";
+		$info .= "<Street>" . xmlEscape($row['G'] . ' / ' . $row['H']) . "</Street>\n";
 		$info .= "<SiteName></SiteName>\n";
 		$info .= "<BuildingName></BuildingName>\n";
 		$info .= "<BuildingNo></BuildingNo>\n";
@@ -167,9 +167,10 @@ foreach($rows as $key => $row) {
 		$info .= "</CompanyAddressAddresses>\n";
 	}
 
-	$phone = $row['G'];
+	$phone = $row['F'];
 	$phone = ltrim($phone, "0");
 	$phone = preg_replace("/[^0-9]/", "", $phone);
+	$phone = substr($phone, 0, 10);
 	if ($phone != "" && strlen($phone) == 10) {
 		$y++;
 		$info .= "<CompanyPhones>\n";
@@ -198,7 +199,7 @@ foreach($rows as $key => $row) {
 	}
 
 	$output = "<CurrentAccounts>\n";
-	$output .= $currents . $balance . $company . $info;
+	$output .= $currents .  $company . $info;
 	$output .= "</CurrentAccounts>\n";
 
 	if (!is_dir($outputFilePath)) {

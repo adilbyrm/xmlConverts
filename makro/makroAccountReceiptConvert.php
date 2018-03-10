@@ -30,16 +30,32 @@ $i = 55;
 foreach ($rows as $key => $row) {
     if ($key == 1) continue;
     $i += 1;
-    
-    $code = str_replace('_x000D_', "", $row['B']);
-    $balance = str_replace([",", " "], [".", ""], $row['D']);
+    $balance = true;
+
+    if ($row['C'] && !empty($row['C'])) {
+        $balance = str_replace([",", " "], [".", ""], $row['C']);
+        $currencyNo = '1';
+        $currencyCode = 'TL';
+        $currencyPrice =  1;
+
+    } elseif ($row['D'] && !empty($row['D'])) {
+        $balance = str_replace([",", " "], [".", ""], $row['D']);
+        $currencyNo = '2';
+        $currencyCode = 'USD';
+        $currencyPrice =  3.7523;
+
+    } else {
+        $balance = false;
+    }
+
+    if (!$balance) continue;
+
+    $code = str_replace('_x000D_', "", $row['A']);
     
     $type = substr($balance, -3); // (A) or (B)
     $balance = substr($balance, 0, -3);
 
-    $currencyNo = '2';
-    $currencyCode = 'USD';
-    $currencyPrice =  3.7523;
+    
 
     if ($type == '(A)') {
         $receiptType = 2;
@@ -89,7 +105,7 @@ foreach ($rows as $key => $row) {
 
     $fileName = str_replace('/', '_', $outputFilePath);
 
-    $file = fopen($outputFilePath . $fileName . "_" . $i . ".xml", "w");
+    $file = fopen($outputFilePath . $fileName . $row['A'] . ".xml", "w");
     fwrite($file, $output);
     fclose($file);
 }
