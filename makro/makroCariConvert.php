@@ -39,16 +39,16 @@ foreach($rows as $key => $row) {
 	$status = "0";
 
 	if ($row['C'] && !empty($row['C'])) {
-        $accountBalance = str_replace([",", " "], [".", ""], $row['C']);
+        // $accountBalance = str_replace([",", " "], [".", ""], $row['C']);
         $currencyNo = '1';
         $currencyCode = 'TL';
-        $currencyPrice =  1;
+        // $currencyPrice =  1;
 
     } else {
-        $accountBalance = str_replace([",", " "], [".", ""], $row['D']);
+        // $accountBalance = str_replace([",", " "], [".", ""], $row['D']);
         $currencyNo = '2';
         $currencyCode = 'USD';
-        $currencyPrice =  3.7523;
+        // $currencyPrice =  3.7523;
     }
 
 	$currents = "<CurrentAccounts>\n";
@@ -140,7 +140,7 @@ foreach($rows as $key => $row) {
 	
 	$info = "";
 
-	if ($row['G']) {
+	if ($row['F']) {
 		$info .= "<CompanyAddresses>\n";
 		$info .= "<RowID>{$i}</RowID>\n";
 		$info .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -168,7 +168,7 @@ foreach($rows as $key => $row) {
 		$info .= "<Township></Township>\n";
 		$info .= "<Village></Village>\n";
 		$info .= "<District></District>\n";
-		$info .= "<Street></Street>\n";
+		$info .= "<Street>". xmlEscape($row['F']) ."</Street>\n";
 		$info .= "<SiteName></SiteName>\n";
 		$info .= "<BuildingName></BuildingName>\n";
 		$info .= "<BuildingNo></BuildingNo>\n";

@@ -30,25 +30,31 @@ $i = 55;
 foreach ($rows as $key => $row) {
     if ($key == 1) continue;
     $i += 1;
-    $balance = true;
+    $isBalance = false;
 
-    if ($row['C'] && !empty($row['C'])) {
+    if ((int)$row['C'] > 0 && (int)$row['D'] > 0) {
         $balance = str_replace([",", " "], [".", ""], $row['C']);
         $currencyNo = '1';
         $currencyCode = 'TL';
         $currencyPrice =  1;
+        $isBalance = true;
 
-    } elseif ($row['D'] && !empty($row['D'])) {
+    } elseif ((int)$row['C'] > 0) {
+        $balance = str_replace([",", " "], [".", ""], $row['C']);
+        $currencyNo = '1';
+        $currencyCode = 'TL';
+        $currencyPrice =  1;
+        $isBalance = true;
+
+    } elseif ((int)$row['D'] > 0) {
         $balance = str_replace([",", " "], [".", ""], $row['D']);
         $currencyNo = '2';
         $currencyCode = 'USD';
-        $currencyPrice =  3.7523;
-
-    } else {
-        $balance = false;
+        $currencyPrice =  4.0000;
+        $isBalance = true;
     }
 
-    if (!$balance) continue;
+    if (!$isBalance) continue;
 
     $code = str_replace('_x000D_', "", $row['A']);
     
