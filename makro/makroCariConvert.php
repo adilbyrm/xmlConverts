@@ -31,6 +31,7 @@ $i=10;
 $y=5;
 $z=5;
 foreach($rows as $key => $row) {
+	if (!$row['A']) continue;
 	if ($key == 1) continue;
 	$i++;
 
@@ -139,7 +140,7 @@ foreach($rows as $key => $row) {
 	
 	$info = "";
 
-	if ($row['G'] || $row['H']) {
+	if ($row['G']) {
 		$info .= "<CompanyAddresses>\n";
 		$info .= "<RowID>{$i}</RowID>\n";
 		$info .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -167,7 +168,7 @@ foreach($rows as $key => $row) {
 		$info .= "<Township></Township>\n";
 		$info .= "<Village></Village>\n";
 		$info .= "<District></District>\n";
-		$info .= "<Street>" . xmlEscape($row['G'] . ' / ' . $row['H']) . "</Street>\n";
+		$info .= "<Street></Street>\n";
 		$info .= "<SiteName></SiteName>\n";
 		$info .= "<BuildingName></BuildingName>\n";
 		$info .= "<BuildingNo></BuildingNo>\n";
@@ -177,7 +178,7 @@ foreach($rows as $key => $row) {
 		$info .= "</CompanyAddressAddresses>\n";
 	}
 
-	$phone = $row['F'];
+	$phone = $row['G'];
 	$phone = ltrim($phone, "0");
 	$phone = preg_replace("/[^0-9]/", "", $phone);
 	$phone = substr($phone, 0, 10);
