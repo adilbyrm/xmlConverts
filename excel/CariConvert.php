@@ -31,25 +31,15 @@ $i=10;
 $y=5;
 $z=5;
 foreach($rows as $key => $row) {
+	if ($key == 1 || $key == 2) continue;
 	if (!$row['A']) continue;
-	if ($key == 1) continue;
 	$i++;
 
 	$time = date('c');
 	$status = "0";
 
-	if ($row['C'] && !empty($row['C'])) {
-        // $accountBalance = str_replace([",", " "], [".", ""], $row['C']);
-        $currencyNo = '1';
-        $currencyCode = 'TL';
-        // $currencyPrice =  1;
-
-    } else {
-        // $accountBalance = str_replace([",", " "], [".", ""], $row['D']);
-        $currencyNo = '2';
-        $currencyCode = 'USD';
-        // $currencyPrice =  3.7523;
-    }
+	$currencyNo = '1';
+    $currencyCode = 'TL';
 
 	$currents = "<CurrentAccounts>\n";
 	$currents .= "<RowID>{$i}</RowID>\n";
@@ -59,6 +49,7 @@ foreach($rows as $key => $row) {
 	$currents .= "<RowEditUserNo>0</RowEditUserNo>\n";
 	$currents .= "<ID>{$i}</ID>\n";
 	$currents .= "<Type>1</Type>\n";
+	$currents .= "<WorkType>2</WorkType>\n";
 	$currents .= "<Code>". $row['A'] ."</Code>\n";
 	$currents .= "<Name>". xmlEscape($row['B']) ."</Name>\n";
 	$currents .= "<InterestLevel>0</InterestLevel>\n";
@@ -96,7 +87,7 @@ foreach($rows as $key => $row) {
 	$currents .= "<Property13></Property13>\n";
 	$currents .= "<Property14></Property14>\n";
 	$currents .= "<Property15></Property15>\n";
-	$currents .= "<Property16>".$row['E']."</Property16>\n";
+	$currents .= "<Property16>".$row['K']."</Property16>\n";
 	$currents .= "<Property17></Property17>\n";
 	$currents .= "</CurrentAccounts>\n";
 
@@ -126,7 +117,7 @@ foreach($rows as $key => $row) {
 	$company .= "<RowEditUserNo>0</RowEditUserNo>\n";
 	$company .= "<ID>{$i}</ID>\n";
 	$company .= "<Title>". xmlEscape($row['B']) ."</Title>\n";
-	$company .= "<ShortTitle></ShortTitle>\n";
+	$company .= "<ShortTitle>". xmlEscape($row['F']) ."</ShortTitle>\n";
 	$company .= "<InstitutionType>0</InstitutionType>\n";
 	$company .= "<EmployeeCount>0</EmployeeCount>\n";
 	$company .= "<LifeSpan>0</LifeSpan>\n";
@@ -134,13 +125,13 @@ foreach($rows as $key => $row) {
 	$company .= "<TradeRegisterNumber>0</TradeRegisterNumber>\n";
 	$company .= "<Scene></Scene>\n";
 	$company .= "<Sector></Sector>\n";
-	$company .= "<TaxNumber></TaxNumber>\n";
-	$company .= "<TaxOffice></TaxOffice>\n";
+	$company .= "<TaxNumber>{$row['G']}</TaxNumber>\n";
+	$company .= "<TaxOffice>{$row['H']}</TaxOffice>\n";
 	$company .= "</Companies>\n";
 	
 	$info = "";
 
-	if ($row['F']) {
+	if ($row['I']) {
 		$info .= "<CompanyAddresses>\n";
 		$info .= "<RowID>{$i}</RowID>\n";
 		$info .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -168,7 +159,7 @@ foreach($rows as $key => $row) {
 		$info .= "<Township></Township>\n";
 		$info .= "<Village></Village>\n";
 		$info .= "<District></District>\n";
-		$info .= "<Street>". xmlEscape($row['F']) ."</Street>\n";
+		$info .= "<Street>". xmlEscape($row['I'] . ' ' . $row['J'] . ' ' . $row['K']) ."</Street>\n";
 		$info .= "<SiteName></SiteName>\n";
 		$info .= "<BuildingName></BuildingName>\n";
 		$info .= "<BuildingNo></BuildingNo>\n";
@@ -178,7 +169,7 @@ foreach($rows as $key => $row) {
 		$info .= "</CompanyAddressAddresses>\n";
 	}
 
-	$phone = $row['G'];
+	$phone = $row['L'];
 	$phone = ltrim($phone, "0");
 	$phone = preg_replace("/[^0-9]/", "", $phone);
 	$phone = substr($phone, 0, 10);
@@ -205,6 +196,37 @@ foreach($rows as $key => $row) {
 		$info .= "<Type>1</Type>\n";
 		$info .= "<Name></Name>\n";
 		$info .= "<Number>{$phone}</Number>\n";
+		$info .= "<Extension></Extension>\n";
+		$info .= "</CompanyPhonePhones>\n";
+	}
+
+	$phone2 = $row['M'];
+	$phone2 = ltrim($phone2, "0");
+	$phone2 = preg_replace("/[^0-9]/", "", $phone2);
+	$phone2 = substr($phone2, 0, 10);
+	if ($phone2 != "" && strlen($phone2) == 10) {
+		$y++;
+		$info .= "<CompanyPhones>\n";
+		$info .= "<RowID>{$y}</RowID>\n";
+		$info .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
+		$info .= "<RowAddUserNo>1</RowAddUserNo>\n";
+		$info .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
+		$info .= "<RowEditUserNo>0</RowEditUserNo>\n";
+		$info .= "<CompanyID>{$i}</CompanyID>\n";
+		$info .= "<ID>{$y}</ID>\n";
+		$info .= "<PhoneID>{$y}</PhoneID>\n";
+		$info .= "</CompanyPhones>\n";
+
+		$info .= "<CompanyPhonePhones>\n";
+		$info .= "<RowID>{$y}</RowID>\n";
+		$info .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
+		$info .= "<RowAddUserNo>1</RowAddUserNo>\n";
+		$info .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
+		$info .= "<RowEditUserNo>0</RowEditUserNo>\n";
+		$info .= "<ID>{$y}</ID>\n";
+		$info .= "<Type>1</Type>\n";
+		$info .= "<Name></Name>\n";
+		$info .= "<Number>{$phone2}</Number>\n";
 		$info .= "<Extension></Extension>\n";
 		$info .= "</CompanyPhonePhones>\n";
 	}

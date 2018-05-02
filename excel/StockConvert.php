@@ -35,12 +35,12 @@ foreach ($rows as $key => $row) {
 
 	$i++;
 
-	$buyPrice1 = empty($row['G']) ? 999 : $row['G']; //usd
+	$buyPrice1 = 999; //usd
 	// $sellPrice1 = empty($row['G']) ? 999 : substr($row['G'], 0, -3); //tl
-	$sellPrice1 = 999; //tl
+	$sellPrice1 = $row['D']; //tl
 
 	
-	$code = trim(str_replace('_x000D_', "", $row['A']));
+	$code = trim($row['B']);
 
 	$stockCard = "<StockCards>\n";
 	$stockCard .= "<RowID>{$i}</RowID>\n";
@@ -50,9 +50,9 @@ foreach ($rows as $key => $row) {
 	$stockCard .= "<RowEditUserNo>0</RowEditUserNo>\n";
 	$stockCard .= "<ID>{$i}</ID>\n";
 	$stockCard .= "<Code>".$code."</Code>\n";
-	$stockCard .= "<Name>" . xmlEscape($row['B']) . "</Name>\n";
-	$stockCard .= "<Name2>" . xmlEscape($row['B']) . "</Name2>\n";
-	$stockCard .= "<SpecialCode>". xmlEscape($row['B']) ."</SpecialCode>\n";
+	$stockCard .= "<Name>" . xmlEscape($row['C']) . "</Name>\n";
+	$stockCard .= "<Name2>" . xmlEscape($row['C']) . "</Name2>\n";
+	$stockCard .= "<SpecialCode>". xmlEscape($row['C']) ."</SpecialCode>\n";
 	$stockCard .= "<CardType>0</CardType>\n";
 	$stockCard .= "<TrackingType>0</TrackingType>\n";
 	$stockCard .= "<GroupID>0</GroupID>\n";
@@ -72,7 +72,7 @@ foreach ($rows as $key => $row) {
 	$stockCard .= "<VAT>0</VAT>\n";
 	$stockCard .= "<BuyPriceID>1</BuyPriceID>\n";
 	$stockCard .= "<BuyPrice>".$buyPrice1."</BuyPrice>\n";
-	$stockCard .= "<BuyCurrencyCode>USD</BuyCurrencyCode>\n";
+	$stockCard .= "<BuyCurrencyCode>TL</BuyCurrencyCode>\n";
 	$stockCard .= "<BuyVATStatus>0</BuyVATStatus>\n";
 	$stockCard .= "<SellPriceID>1</SellPriceID>\n";
 	$stockCard .= "<SellPrice>".$sellPrice1."</SellPrice>\n";
@@ -128,7 +128,7 @@ foreach ($rows as $key => $row) {
 	$stockCard .= "<SettingID>0</SettingID>\n";
 	$stockCard .= "</StockCards>\n";
 	
-	if ((int) $row['I'] > 0) {
+	if ((int) $row['A'] > 0) {
 		$stockCard .= "<StockCardBarcodes>";
 		$stockCard .= "<RowID>{$i}</RowID>\n";
 		$stockCard .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -140,7 +140,7 @@ foreach ($rows as $key => $row) {
 		$stockCard .= "<SeqID>{$i}</SeqID>\n";
 		$stockCard .= "<Name>Ürün</Name>\n";
 		$stockCard .= "<Type>4</Type>\n";
-		$stockCard .= "<Barcode>".$row['I']."</Barcode>\n";
+		$stockCard .= "<Barcode>".$row['A']."</Barcode>\n";
 		$stockCard .= "<Amount>1</Amount>\n";
 		$stockCard .= "</StockCardBarcodes>";
 	}
@@ -152,12 +152,12 @@ foreach ($rows as $key => $row) {
 	$buyPrice .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
 	$buyPrice .= "<RowEditUserNo>0</RowEditUserNo>\n";
 	$buyPrice .= "<StockID>{$i}</StockID>\n";
-	$buyPrice .= "<ID>{$i}</ID>\n";
-	$buyPrice .= "<SeqID>{$i}</SeqID>\n";
+	$buyPrice .= "<ID>1</ID>\n";
+	$buyPrice .= "<SeqID>1</SeqID>\n";
 	$buyPrice .= "<Price>" . $buyPrice1 . "</Price>\n";
-	$buyPrice .= "<CurrencyNo>2</CurrencyNo>\n";
-	$buyPrice .= "<CurrencyCode>USD</CurrencyCode>\n";
-	$buyPrice .= "<CurrencyName>ABD DOLARI</CurrencyName>\n";
+	$buyPrice .= "<CurrencyNo>1</CurrencyNo>\n";
+	$buyPrice .= "<CurrencyCode>TL</CurrencyCode>\n";
+	$buyPrice .= "<CurrencyName>TÜRK LİRASI</CurrencyName>\n";
 	$buyPrice .= "<VATStatus>0</VATStatus>\n";
 	$buyPrice .= "<Status>0</Status>\n";
 	$buyPrice .= "<SettingID>0</SettingID>\n";
@@ -170,8 +170,8 @@ foreach ($rows as $key => $row) {
 	$sellPrice .= "<RowEditDateTime>{$time}</RowEditDateTime>\n";
 	$sellPrice .= "<RowEditUserNo>0</RowEditUserNo>\n";
 	$sellPrice .= "<StockID>{$i}</StockID>\n";
-	$sellPrice .= "<ID>{$i}</ID>\n";
-	$sellPrice .= "<SeqID>{$i}</SeqID>\n";
+	$sellPrice .= "<ID>1</ID>\n";
+	$sellPrice .= "<SeqID>1</SeqID>\n";
 	$sellPrice .= "<Price>" . $sellPrice1 . "</Price>\n";
 	$sellPrice .= "<CurrencyNo>1</CurrencyNo>\n";
 	$sellPrice .= "<CurrencyCode>TL</CurrencyCode>\n";
@@ -191,7 +191,7 @@ foreach ($rows as $key => $row) {
 
     $fileName = str_replace('/', '_', $outputFilePath);
 
-	$file = fopen($outputFilePath . $fileName . $i . ".xml", "w");
+	$file = fopen($outputFilePath . $fileName . $i .'_' . preg_replace("/ /", "_", $row['B']) . ".xml", "w");
 	fwrite($file, $output);
 	fclose($file);
 	

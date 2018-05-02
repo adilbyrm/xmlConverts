@@ -22,11 +22,12 @@ function xmlEscape($string) {
 // D=>adet, 
 // E=>birim,
 
+
 $time = date('c');
 $xml = '';
 $x = 0;
 foreach ($rows as $key => $row) {
-    if ($key == 1 || $key == 2) continue;
+    if ($key == 1) continue;
     $x += 1;
 
     // if ($row['D'] == 'MERKEZ EMINONU') {
@@ -37,16 +38,14 @@ foreach ($rows as $key => $row) {
     //     $depotID = 3;
     // }
 
-    if ($row['F'] == 'ADET') {
-        $unitID = 1;
-        $unitName = 'Adet';
-    } else if ($row['F'] == 'PK') {
-        $unitID = 3;
-        $unitName = 'Paket';
-    }
 
-    $code = str_replace('_x000D_', "", $row['A']);
-    $amount = $row['E'];
+    $unitID = 1;
+    $unitName = 'Adet';
+    $depotID = 1;
+
+    $code = $row['A'];
+    $amount = (int)$row['D'];
+
     $xml = "<StockReceiptStocks>\n";
     $xml .= "<RowID>1</RowID>\n";
     $xml .= "<RowAddDateTime>{$time}</RowAddDateTime>\n";
@@ -57,7 +56,7 @@ foreach ($rows as $key => $row) {
     $xml .= "<ReceiptID>{$x}</ReceiptID>\n";
     $xml .= "<ReceiptType>0</ReceiptType>\n";
     $xml .= "<Time>{$time}</Time>\n";
-    $xml .= "<DepotID>3</DepotID>\n";
+    $xml .= "<DepotID>{$depotID}</DepotID>\n";
     $xml .= "<TargetDepotID>0</TargetDepotID>\n";
     $xml .= "<StockCode>".$code."</StockCode>\n";
     $xml .= "<Number></Number>\n";
@@ -78,7 +77,7 @@ foreach ($rows as $key => $row) {
     $stockReceipts .= "<ID>{$x}</ID>\n";
     $stockReceipts .= "<ReceiptType>0</ReceiptType>\n";
     $stockReceipts .= "<Time>{$time}</Time>\n";
-    $stockReceipts .= "<DepotID>3</DepotID>\n";
+    $stockReceipts .= "<DepotID>{$depotID}</DepotID>\n";
     $stockReceipts .= "<TargetDepotID>0</TargetDepotID>\n";
     $stockReceipts .= "<TotalAmount>".$amount."</TotalAmount>\n";
     $stockReceipts .= "<SettingID>1</SettingID>\n";

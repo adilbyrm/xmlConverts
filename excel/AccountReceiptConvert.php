@@ -1,4 +1,5 @@
 <?php
+
 if (!isset($argv[1]) || !isset($argv[2])) {
     exit('parametre eksik');
 }
@@ -32,25 +33,11 @@ foreach ($rows as $key => $row) {
     $i += 1;
     $isBalance = false;
 
-    if ((int)$row['C'] > 0 && (int)$row['D'] > 0) {
+    if ((float)str_replace([",", " "], [".", ""], $row['C']) > 0) {
         $balance = str_replace([",", " "], [".", ""], $row['C']);
         $currencyNo = '1';
         $currencyCode = 'TL';
         $currencyPrice =  1;
-        $isBalance = true;
-
-    } elseif ((int)$row['C'] > 0) {
-        $balance = str_replace([",", " "], [".", ""], $row['C']);
-        $currencyNo = '1';
-        $currencyCode = 'TL';
-        $currencyPrice =  1;
-        $isBalance = true;
-
-    } elseif ((int)$row['D'] > 0) {
-        $balance = str_replace([",", " "], [".", ""], $row['D']);
-        $currencyNo = '2';
-        $currencyCode = 'USD';
-        $currencyPrice =  4.0000;
         $isBalance = true;
     }
 
